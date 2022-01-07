@@ -16,7 +16,8 @@ func SetupRouter() *gin.Engine{
 	router := gin.Default()
 
 	apiV1 := router.Group("/api/v1")//127.0.0.1:3000/api/v1
-	routes.InitHomeRoutes(apiV1)
 
+	routes.InitHomeRoutes(apiV1)
+	routes.InitUserRoutes(apiV1)//127.0.0.1:3000/api/v1/users/register
 	return router
 }
