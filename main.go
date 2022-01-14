@@ -4,6 +4,7 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
+	"github.com/patipan-patisampita/gin-framework9/configs"
 	"github.com/patipan-patisampita/gin-framework9/routes"
 )
 
@@ -13,6 +14,8 @@ func main() {
 }
 
 func SetupRouter() *gin.Engine{
+	//Connection db
+	configs.Connection()
 	router := gin.Default()
 
 	apiV1 := router.Group("/api/v1")//127.0.0.1:3000/api/v1
