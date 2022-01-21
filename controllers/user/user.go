@@ -9,8 +9,11 @@ import (
 )
 
 func GetAll(c *gin.Context) {
+	var users []models.User
+	configs.DB.Find(&users)
+
 	c.JSON(200, gin.H{
-		"data new": "users",
+		"data new": users,
 	})
 }
 
