@@ -33,7 +33,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{domain_url}}/api/v1/users/1",
+							"raw": "{{domain_url}}/api/v1/users/8",
 							"host": [
 								"{{domain_url}}"
 							],
@@ -41,7 +41,7 @@
 								"api",
 								"v1",
 								"users",
-								"1"
+								"8"
 							]
 						}
 					},
@@ -53,7 +53,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{domain_url}}/api/v1/users/search?fullname=J",
+							"raw": "{{domain_url}}/api/v1/users/search?fullname=Jeff2 Bezzo",
 							"host": [
 								"{{domain_url}}"
 							],
@@ -66,7 +66,7 @@
 							"query": [
 								{
 									"key": "fullname",
-									"value": "J"
+									"value": "Jeff2 Bezzo"
 								}
 							]
 						}
@@ -80,7 +80,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"fullname\":\"Jeff Bezzo\",\r\n    \"email\":\"jeff@gmail.com\",\r\n    \"password\":\"12345678\"\r\n}",
+							"raw": "{\r\n    \"fullname\":\"Tommy jame\",\r\n    \"email\":\"tommy@gmail.com\",\r\n    \"password\":\"12345678\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -109,7 +109,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\":\"mark@gmail.com\",\r\n    \"password\":\"12345678\"\r\n}",
+							"raw": "{\r\n    \"email\":\"tommy@gmail.com\",\r\n    \"password\":\"12345678\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
