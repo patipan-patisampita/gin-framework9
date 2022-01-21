@@ -2,9 +2,12 @@ package usercontroller
 
 import (
 	"net/http"
+
 	"github.com/gin-gonic/gin"
+	"github.com/matthewhartstonge/argon2"
 	"github.com/patipan-patisampita/gin-framework9/configs"
 	"github.com/patipan-patisampita/gin-framework9/models"
+	// "gorm.io/gorm/utils"
 )
 
 // CRUD
@@ -53,8 +56,34 @@ func Register(c *gin.Context) {
 }
 
 func Login(c *gin.Context) {
-	c.JSON(200, gin.H{
-		"data": "login",
+
+	var input InputLogin
+	if err := c.ShouldBindJSON(&input); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	user := models.User{
+		Email:    input.Email,
+		Password: input.Password,
+	}
+
+	userAccount := configs.DB.Where("email = ?", input.Email).First(&user)
+	if userAccount.RowsAffected < 1 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "ไม่พบผู้ใช้งานในระบบ"})
+		return
+	}
+
+	//เปรียบเทียบรหัสผ่านที่ส่งมา
+	ok, _ := argon2.VerifyEncoded([]byte(input.Password), []byte(user.Password))
+	if !ok {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "รหัสผ่านไม่ถูกต้อง"})
+		return
+	}
+
+	c.JSON(http.StatusCreated, gin.H{
+		"message":      "เข้าสู่ระบบสำเร็จ",
+		"access_token": "token",
 	})
 }
 
@@ -77,12 +106,12 @@ func GetById(c *gin.Context) {
 func SearchByFullName(c *gin.Context) {
 	fullname := c.Query("fullname")
 
-	var users[]models.User
-	result := configs.DB.Where("fullname LIKE ?","%" + fullname + "%").Find(&users)
-	if result.RowsAffected<1{
-		c.JSON(http.StatusNotFound, gin.H{"error": "ไม่พบข้อมูล"})
-		return
-	}
+	// var users[]models.User
+	// result := configs.DB.Where("fullname LIKE ?","%" + fullname + "%").Scopes(utils.Paginate(c)).Find(&users)
+	// if result.RowsAffected<1{
+	// 	c.JSON(http.StatusNotFound, gin.H{"error": "ไม่พบข้อมูล"})
+	// 	return
+	// }
 
 	c.JSON(200, gin.H{
 		"data": fullname,
