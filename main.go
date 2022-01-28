@@ -3,6 +3,7 @@ package main
 import (
 	"os"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	"github.com/patipan-patisampita/gin-framework9/configs"
@@ -21,7 +22,17 @@ func SetupRouter() *gin.Engine{
 	
 	//Connection db
 	configs.Connection()
+
 	router := gin.Default()
+	router.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"*"},
+		AllowMethods:     []string{"*"},
+		AllowHeaders:     []string{"*"},
+		ExposeHeaders:    []string{"*"},
+		AllowCredentials: true,
+		//MaxAge: 12 * time.Hour,
+	  }))
+	  
 
 	apiV1 := router.Group("/api/v1")//127.0.0.1:3000/api/v1
 
