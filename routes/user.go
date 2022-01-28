@@ -17,5 +17,5 @@ func InitUserRoutes(rg *gin.RouterGroup) {
 	//{domain_url}/api/v1/users/1
 	routerGroup.GET("/:id",usercontroller.GetById)
 	//{domain_url}/api/v1/users/search?fullname=Mark
-	routerGroup.GET("/search",usercontroller.SearchByFullName)
+	routerGroup.GET("/search",usercontroller.SearchByFullname)
 }

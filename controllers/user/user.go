@@ -2,12 +2,11 @@ package usercontroller
 
 import (
 	"net/http"
-
 	"github.com/gin-gonic/gin"
 	"github.com/matthewhartstonge/argon2"
 	"github.com/patipan-patisampita/gin-framework9/configs"
 	"github.com/patipan-patisampita/gin-framework9/models"
-	// "gorm.io/gorm/utils"
+	"github.com/patipan-patisampita/gin-framework9/utils"
 )
 
 // CRUD
@@ -103,17 +102,24 @@ func GetById(c *gin.Context) {
 	})
 }
 
-func SearchByFullName(c *gin.Context) {
-	fullname := c.Query("fullname")
+func SearchByFullname(c *gin.Context) {
+	fullname := c.Query("fullname") //?fullname=John
 
-	// var users[]models.User
-	// result := configs.DB.Where("fullname LIKE ?","%" + fullname + "%").Scopes(utils.Paginate(c)).Find(&users)
-	// if result.RowsAffected<1{
-	// 	c.JSON(http.StatusNotFound, gin.H{"error": "ไม่พบข้อมูล"})
-	// 	return
-	// }
+	var users []models.User
+	result := configs.DB.Where("fullname LIKE ?", "%"+fullname+"%").Scopes(utils.Paginate(c)).Find(&users)
+	if result.RowsAffected < 1 {
+		c.JSON(http.StatusNotFound, gin.H{"error": "ไม่พบข้อมูลนี้"})
+		return
+	}
 
 	c.JSON(200, gin.H{
-		"data": fullname,
+		"data": users,
+	})
+}
+
+func GetProfile(c *gin.Context) {
+	user := c.MustGet("user")
+	c.JSON(http.StatusOK, gin.H{
+		"data": user,
 	})
 }
