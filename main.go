@@ -4,6 +4,7 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 	"github.com/patipan-patisampita/gin-framework9/configs"
 	"github.com/patipan-patisampita/gin-framework9/routes"
 )
@@ -14,6 +15,10 @@ func main() {
 }
 
 func SetupRouter() *gin.Engine{
+
+	//Load .env
+	godotenv.Load(".env")
+	
 	//Connection db
 	configs.Connection()
 	router := gin.Default()

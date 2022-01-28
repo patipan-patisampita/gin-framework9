@@ -2,7 +2,11 @@ package usercontroller
 
 import (
 	"net/http"
+	"os"
+	"time"
+
 	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt/v4"
 	"github.com/matthewhartstonge/argon2"
 	"github.com/patipan-patisampita/gin-framework9/configs"
 	"github.com/patipan-patisampita/gin-framework9/models"
@@ -84,6 +88,21 @@ func Login(c *gin.Context) {
 		"message":      "เข้าสู่ระบบสำเร็จ",
 		"access_token": "token",
 	})
+
+	//สร้าง token
+	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"user_id": user.ID,
+		"exp":     time.Now().Add(time.Hour * 24 * 2).Unix(),
+	})
+
+	jwtSecret := os.Getenv("JWT_SECRET")
+	token, _ := claims.SignedString([]byte(jwtSecret))
+
+	c.JSON(http.StatusCreated, gin.H{
+		"message":      "เข้าระบบสำเร็จ",
+		"access_token": token,
+	})
+
 }
 
 //Read Get by id
